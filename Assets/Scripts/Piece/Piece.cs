@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class Piece : MonoBehaviour
 {
   [SerializeField] private bool _isShadowed;
-  [SerializeField] public RangeMatrix PossibleMoves;
+  [SerializeField] public RangeSO PossibleMoves;
   [SerializeField] public List<Skill> Skills;
 
   [SerializeField] protected int _hitPoints;

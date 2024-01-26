@@ -6,7 +6,7 @@ public class CombatManager : MonoBehaviour
 {
   public GameObject BoardReference;
   public Board CurrentBoard { get; private set; }
-  public List<PlayerSetup> Players;
+  public List<PlayerSetupSO> Players;
 
   public List<List<Piece>> ActivePieces;
 
