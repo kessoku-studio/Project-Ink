@@ -5,6 +5,7 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
   public static BoardManager Instance { get; private set; }
+  public static Cell Graveyard;
   public GameObject CellPrefab;
 
   [SerializeField] private int size = 8;
@@ -20,6 +21,12 @@ public class BoardManager : MonoBehaviour
     {
       Destroy(gameObject); // Destroy any duplicate instances.
     }
+
+    // Instantiate faraway graveyard cell
+    GameObject graveyardObject = Instantiate(CellPrefab, new Vector3(1000f, 1000f, 1000f), Quaternion.identity);
+    Graveyard = graveyardObject.GetComponent<Cell>();
+    Graveyard.Initialize(-1, -1);
+    graveyardObject.name = "Graveyard";
   }
 
   public void InitializeBoard()
@@ -57,17 +64,6 @@ public class BoardManager : MonoBehaviour
       // Add the row to the board
       CurrentBoard.Add(row);
     }
-  }
-
-  public Piece CreatePieceAtCell(GameObject piecePrefab, GameObject targetCell)
-  {
-    GameObject piece = Instantiate(piecePrefab);
-
-    Piece pieceScript = piece.GetComponent<Piece>();
-    Cell cellScript = targetCell.GetComponent<Cell>();
-
-    pieceScript.CellUnderPiece = cellScript;
-    return pieceScript;
   }
 
   public void MovePieceToCell(GameObject piece, GameObject newCell)

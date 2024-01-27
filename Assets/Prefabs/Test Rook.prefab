@@ -120,7 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b99dad5bbb63584095e0e327616e4df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isShadowed: 1
-  _possibleMoves: {fileID: 0}
+  PossibleMoves: {fileID: 11400000, guid: 7f2d18a3f3d7fd54a9607fed433bf261, type: 2}
   _hitPoints: 5
-  _board: {fileID: 7362324635452603062, guid: b38d17adfc1d77a40ba5fd4edb67c77e, type: 3}
+  _isShadowed: 1

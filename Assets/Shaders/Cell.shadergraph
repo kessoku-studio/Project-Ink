@@ -2176,10 +2176,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1502.0,
-            "y": -174.99996948242188,
-            "width": 207.9998779296875,
-            "height": 325.9999084472656
+            "x": -1287.9998779296875,
+            "y": -147.0,
+            "width": 130.0,
+            "height": 142.00001525878907
         }
     },
     "m_Slots": [
@@ -2202,7 +2202,7 @@
         "linear interpolate"
     ],
     "m_Precision": 0,
-    "m_PreviewExpanded": true,
+    "m_PreviewExpanded": false,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {

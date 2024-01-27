@@ -1,5 +1,3 @@
-using JetBrains.Annotations;
-using UnityEditor;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -50,21 +48,7 @@ public class InputManager : MonoBehaviour
       if (cell == null) return;
       #endregion
 
-      switch (CombatManager.Instance.CurrentState)
-      {
-        case SetupState setupState:
-          if (cell.PieceOnCell == null)
-          {
-            OnCellSelected?.Invoke(cell);
-          }
-          return;
-
-        case PlayerTurnState playerTurnState:
-          return;
-
-        default:
-          return;
-      }
+      OnCellSelected?.Invoke(cell);
     }
   }
 }

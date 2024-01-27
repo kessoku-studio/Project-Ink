@@ -1,6 +1,3 @@
-using Unity.VisualScripting;
-using UnityEngine;
-
 public interface ICommand
 {
   void Execute();
@@ -9,22 +6,28 @@ public interface ICommand
 
 public class PlacePieceCommand : ICommand
 {
-  private readonly Piece _piece;
-  private readonly Cell _cell;
+  private Piece _piece;
+  private Cell _cell;
+  private bool _previousCellState;
 
   public PlacePieceCommand(Piece piece, Cell cell)
   {
     _piece = piece;
     _cell = cell;
+    _previousCellState = _cell.IsShadowed;
   }
 
   public void Execute()
   {
-    BoardManager.Instance.CreatePieceAtCell(_piece.gameObject, _cell.gameObject);
+    _piece.CellUnderPiece = _cell;
+    CombatManager.Instance.AlivePieces.Add(_piece);
   }
 
   public void Undo()
   {
-    _piece.CellUnderPiece = null;
+    _piece.CellUnderPiece = BoardManager.Graveyard;
+    CombatManager.Instance.AlivePieces.Remove(_piece);
+
+    _cell.IsShadowed = _previousCellState;
   }
 }

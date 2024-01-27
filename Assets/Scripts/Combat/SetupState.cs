@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class SetupState : ICombatState
 {
-  private CombatManager _combatManager;
-  private List<GameObject> _piecesToPlace;
+  private Queue<Piece> _piecesToPlace;
 
-  private int _piecesToPlaceIndex = 0;
-
+  // TODO: Data structure to hold previous commands to undo
+  private List<ICommand> _commands;
   public void EnterState(CombatManager manager)
   {
-    _combatManager = manager;
+
     // Set the pieces to place
-    _piecesToPlace = _combatManager.PlayerSetup.Pieces;
-    _piecesToPlaceIndex = 0;
+    _piecesToPlace = new Queue<Piece>();
+    foreach (Piece piece in CombatManager.Instance.PlayerPieces)
+    {
+      _piecesToPlace.Enqueue(piece);
+    }
+
+    _commands = new List<ICommand>();
 
     InputManager.OnCellSelected += HandleCellSelected;
   }
@@ -26,22 +30,36 @@ public class SetupState : ICombatState
 
   public void UpdateState(CombatManager manager)
   {
-    // If all the pieces have been placed, go to the next state
-    if (_piecesToPlaceIndex >= _piecesToPlace.Count)
-    {
-      // TODO: The player should have the option to tweak the placement of the pieces before finalizing the placement with a button
-      //? Now the placement is locked in as soon as all the pieces are placed
-      _combatManager.ChangeState(new PlayerTurnState());
-    }
   }
 
   private void HandleCellSelected(Cell cell)
   {
-    Piece pieceToPlace = _piecesToPlace[_piecesToPlaceIndex].GetComponent<Piece>();
-    ICommand command = new PlacePieceCommand(pieceToPlace, cell);
-    _combatManager.Invoker.SetCommand(command);
-    _combatManager.Invoker.ExecuteCommand();
-    _combatManager.PlayerPieces.Add(pieceToPlace);
-    _piecesToPlaceIndex++;
+    ICommand command;
+    if (cell.PieceOnCell == null)
+    {
+      if (_piecesToPlace.Count == 0) return;
+      Piece pieceToPlace = _piecesToPlace.Dequeue();
+      // Debug.Log(pieceToPlace);
+      command = new PlacePieceCommand(pieceToPlace, cell);
+      CombatManager.Instance.Invoker.SetCommand(command);
+      CombatManager.Instance.Invoker.ExecuteCommand();
+
+      _commands.Add(command);
+    }
+    else
+    {
+      Piece piece = cell.PieceOnCell;
+      int foundIndex = CombatManager.Instance.AlivePieces.IndexOf(piece);
+      if (foundIndex >= 0)
+      {
+        // Remove the piece from the player pieces list
+        command = _commands[foundIndex];
+        CombatManager.Instance.Invoker.SetCommand(command);
+        CombatManager.Instance.Invoker.UndoCommand();
+        _commands.RemoveAt(foundIndex);
+
+        _piecesToPlace.Enqueue(piece);
+      }
+    }
   }
 }

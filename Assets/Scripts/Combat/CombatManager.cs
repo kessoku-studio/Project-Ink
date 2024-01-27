@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class CombatManager : MonoBehaviour
@@ -12,6 +10,8 @@ public class CombatManager : MonoBehaviour
   // public EnemySetupSO EnemySetup;
 
   public List<Piece> PlayerPieces = new List<Piece>();
+  public List<Piece> AlivePieces = new List<Piece>();
+
   public List<Piece> EnemyPieces = new List<Piece>();
 
   public ICombatState CurrentState { get; private set; }
@@ -25,6 +25,16 @@ public class CombatManager : MonoBehaviour
     else if (Instance != this)
     {
       Destroy(gameObject); // Destroy any duplicate instances.
+    }
+
+    // Instantiate all player pieces and put them into the faraway graveyard cell
+    foreach (var prefab in PlayerSetup.Pieces)
+    {
+      GameObject piece = Instantiate(prefab);
+      Piece pieceScript = piece.GetComponent<Piece>();
+      pieceScript.CellUnderPiece = BoardManager.Graveyard;
+
+      PlayerPieces.Add(pieceScript);
     }
 
     this.Invoker = new CommandInvoker();

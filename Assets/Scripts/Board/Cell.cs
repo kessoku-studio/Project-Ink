@@ -15,6 +15,7 @@ public class Cell : MonoBehaviour
       }
     }
   }
+
   [SerializeField] private Color color = Color.white;
 
   public Vector2Int IndexPosition = new(0, 0);

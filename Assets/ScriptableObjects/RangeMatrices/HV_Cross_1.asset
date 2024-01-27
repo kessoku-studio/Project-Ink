@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ad5f5fa7f22d24da5b1d846ec32f25, type: 3}
   m_Name: HV_Cross_1
   m_EditorClassIdentifier: 
-  range:
+  RangeMatrix:
   - {x: 1, y: 0}
   - {x: -1, y: 0}
   - {x: 0, y: 1}

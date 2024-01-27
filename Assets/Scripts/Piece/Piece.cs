@@ -31,14 +31,7 @@ public abstract class Piece : MonoBehaviour
       {
         Cell oldCell = _cellUnderPiece;
         _cellUnderPiece = value;
-        if (_cellUnderPiece == null)
-        {
-          Destroy(this.gameObject); //? This might be changed in the future, right now it is for the removal of the piece from the board
-        }
-        else
-        {
-          OnPieceMoved(oldCell, value);
-        }
+        OnPieceMoved(oldCell, value);
       }
     }
   }
