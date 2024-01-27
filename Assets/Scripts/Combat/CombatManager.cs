@@ -1,61 +1,46 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
-  public GameObject BoardReference;
-  public Board CurrentBoard { get; private set; }
-  public List<PlayerSetupSO> Players;
+  public static CombatManager Instance { get; private set; }
+  public CommandInvoker Invoker;
+  public PlayerSetupSO PlayerSetup;
+  // TODO: Enemy setup data should be stored here
+  // public EnemySetupSO EnemySetup;
 
-  public List<List<Piece>> ActivePieces;
+  public List<Piece> PlayerPieces = new List<Piece>();
+  public List<Piece> EnemyPieces = new List<Piece>();
 
-  private ICombatState _currentState;
+  public ICombatState CurrentState { get; private set; }
 
   private void Start()
   {
-    CurrentBoard = BoardReference.GetComponent<Board>();
-    ActivePieces = new List<List<Piece>>();
-    ChangeState(new InitState(), 0);
+    if (Instance == null)
+    {
+      Instance = this;
+    }
+    else if (Instance != this)
+    {
+      Destroy(gameObject); // Destroy any duplicate instances.
+    }
+
+    this.Invoker = new CommandInvoker();
+    // Set the state to the initial state
+    ChangeState(new InitState());
   }
 
   private void Update()
   {
-    _currentState.UpdateState(this);
+    CurrentState.UpdateState(this);
   }
 
-  public void ChangeState(ICombatState newState, int playerTurn)
+  public void ChangeState(ICombatState newState)
   {
-    _currentState?.ExitState(this);
-    _currentState = newState;
-    _currentState.EnterState(this, playerTurn);
-  }
-
-  public RaycastHit GetHitCell(Vector3 mousePosition)
-  {
-    // Convert the mouse position to a ray
-    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-    // Perform the raycast and get all hits
-    RaycastHit[] hits = Physics.RaycastAll(ray);
-
-    // Initialize the closest hit
-    RaycastHit closestHit = new RaycastHit();
-    float closestDistance = float.MaxValue;
-
-    // Iterate through all hits to find the closest "Cell"
-    foreach (var hit in hits)
-    {
-      if (hit.collider.gameObject.CompareTag("Cell"))
-      {
-        float distance = Vector3.Distance(Camera.main.transform.position, hit.point);
-        if (distance < closestDistance)
-        {
-          closestDistance = distance;
-          closestHit = hit;
-        }
-      }
-    }
-    return closestHit;
+    CurrentState?.ExitState(this);
+    CurrentState = newState;
+    CurrentState.EnterState(this);
   }
 }

@@ -2,12 +2,25 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Board : MonoBehaviour
+public class BoardManager : MonoBehaviour
 {
+  public static BoardManager Instance { get; private set; }
   public GameObject CellPrefab;
 
   [SerializeField] private int size = 8;
   public List<List<Cell>> CurrentBoard;
+
+  private void Awake()
+  {
+    if (Instance == null)
+    {
+      Instance = this;
+    }
+    else if (Instance != this)
+    {
+      Destroy(gameObject); // Destroy any duplicate instances.
+    }
+  }
 
   public void InitializeBoard()
   {

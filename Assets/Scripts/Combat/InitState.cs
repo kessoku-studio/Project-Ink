@@ -1,13 +1,14 @@
-using UnityEngine;
-using UnityEngine.AI;
-
 public class InitState : ICombatState
 {
-  public void EnterState(CombatManager manager, int playerTurn)
+  public void EnterState(CombatManager manager)
   {
     // Initialize the game board
-    manager.CurrentBoard.InitializeBoard();
-    manager.ChangeState(new SetupState(), 0);
+    BoardManager.Instance.InitializeBoard();
+    // TODO: Should initialize the enemy pieces here so the player can see them before placing their own pieces
+
+    // Init state only occurs once to initialize the board
+    // Regardless of how many players are playing
+    manager.ChangeState(new SetupState());
   }
 
   public void ExitState(CombatManager manager) { }

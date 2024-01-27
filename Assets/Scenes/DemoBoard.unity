@@ -196,13 +196,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b38d17adfc1d77a40ba5fd4edb67c77e, type: 3}
---- !u!1 &166493919 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4903398599054126240, guid: b38d17adfc1d77a40ba5fd4edb67c77e,
-    type: 3}
-  m_PrefabInstance: {fileID: 166493918}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &567955369
+--- !u!1 &1661608792
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,45 +204,58 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 567955371}
-  - component: {fileID: 567955370}
+  - component: {fileID: 1661608793}
+  - component: {fileID: 1661608794}
+  - component: {fileID: 1661608795}
   m_Layer: 0
-  m_Name: Combat Manager
+  m_Name: Control System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &567955370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567955369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b492d883170dc1a4fa5b261a6ea08fcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BoardReference: {fileID: 166493919}
-  Players:
-  - {fileID: 11400000, guid: 0e3f50bc646b73c4e8d58b61ae8347f3, type: 2}
---- !u!4 &567955371
+--- !u!4 &1661608793
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567955369}
+  m_GameObject: {fileID: 1661608792}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.185708, y: -1.0281305, z: 1.0759821}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1661608794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661608792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b492d883170dc1a4fa5b261a6ea08fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerSetup: {fileID: 11400000, guid: 0e3f50bc646b73c4e8d58b61ae8347f3, type: 2}
+  PlayerPieces: []
+  EnemyPieces: []
+--- !u!114 &1661608795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661608792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ea9c8ee47596443b02168dfc878623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1745998043
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,5 +517,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 1745998046}
   - {fileID: 1765471484}
-  - {fileID: 567955371}
   - {fileID: 166493918}
+  - {fileID: 1661608793}

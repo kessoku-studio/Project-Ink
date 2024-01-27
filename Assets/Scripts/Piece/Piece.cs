@@ -3,15 +3,25 @@ using UnityEngine;
 
 public abstract class Piece : MonoBehaviour
 {
-  [SerializeField] private bool _isShadowed;
   [SerializeField] public RangeSO PossibleMoves;
   [SerializeField] public List<Skill> Skills;
-
   [SerializeField] protected int _hitPoints;
+
+
+  [SerializeField] private bool _isShadowed;
+  private Cell _cellUnderPiece;
   protected int _currentHitPoints;
 
-  [SerializeField] private Board _board;
-  [SerializeField] private Cell _cellUnderPiece;
+  public bool HasMoved { get; set; }
+  public bool HasAttacked { get; set; }
+  public bool IsExhausted
+  {
+    get
+    {
+      return HasMoved && HasAttacked;
+    }
+  }
+
   public Cell CellUnderPiece
   {
     get => _cellUnderPiece;
@@ -21,14 +31,25 @@ public abstract class Piece : MonoBehaviour
       {
         Cell oldCell = _cellUnderPiece;
         _cellUnderPiece = value;
-        OnPieceMoved(oldCell, value);
+        if (_cellUnderPiece == null)
+        {
+          Destroy(this.gameObject); //? This might be changed in the future, right now it is for the removal of the piece from the board
+        }
+        else
+        {
+          OnPieceMoved(oldCell, value);
+        }
       }
     }
   }
 
   private void Start()
   {
-    _currentHitPoints = _hitPoints;
+    Initialize();
+  }
+
+  protected virtual void Initialize()
+  {
   }
 
   protected virtual void OnPieceMoved(Cell oldCell, Cell newCell)
@@ -41,6 +62,18 @@ public abstract class Piece : MonoBehaviour
 
     newCell.PieceOnCell = this;
     newCell.IsShadowed = this._isShadowed;
-    _board.MovePieceToCell(this.gameObject, newCell.gameObject);
+    BoardManager.Instance.MovePieceToCell(this.gameObject, newCell.gameObject);
+  }
+
+  public virtual void RefreshActions()
+  {
+    this.HasMoved = false;
+    this.HasAttacked = false;
+  }
+
+  public virtual void ExhaustActions()
+  {
+    this.HasMoved = true;
+    this.HasAttacked = true;
   }
 }
