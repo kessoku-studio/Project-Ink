@@ -54,7 +54,7 @@ public abstract class Ally : Piece
 
     public void UnveiledRefreshActions()
     {
-        CurrentActionPoints = Mathf.Clamp(CurrentActionPoints + data.UnveiledActionPointRestoration, 0, data.MaxActionPoints);
+        CurrentActionPoints = Mathf.Clamp(CurrentActionPoints + data.MaxActionPoints / 2, 0, data.MaxActionPoints);
     }
 
     public void ExhaustActions()

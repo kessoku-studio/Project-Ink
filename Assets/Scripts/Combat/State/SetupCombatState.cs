@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
-using UnityEngine;
 
 public class SetupCombatState : ICombatState
 {
@@ -14,7 +12,7 @@ public class SetupCombatState : ICombatState
 
         _commands = new List<ICommand>();
 
-        InputManager.OnCellSelected += HandleCellSelected;
+        InputManager.OnCellSelected += HandleCellSelected; // Subscribe to the cell selected event (observer pattern)
     }
 
     public void ExitState()
